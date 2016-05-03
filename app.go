@@ -10,9 +10,9 @@ func renderTemplate(w http.ResponseWriter, tmpl string, p *page.Page) {
 }
 
 func viewHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/view/"):]
+	title := r.URL.Path[len(""):]
 	p, _ := page.LoadPage(title)
-	renderTemplate(w, "view", p)
+	renderTemplate(w, "logan", p)
 }
 
 func main() {
