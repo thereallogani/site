@@ -1,9 +1,31 @@
 package main
 
-import "net/http"
-import "html/template"
-import "site/page"
-import "log"
+import (
+	"html/template"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"site/page"
+)
+
+type Page struct {
+	Title string
+	Body  []byte
+}
+
+func (p *Page) save() error {
+	filename := p.Title + ".txt"
+	return ioutil.WriteFile(filename, p.Body, 0600)
+}
+
+func LoadPage(title string) (*Page, error) {
+	filename := title + ".txt"
+	body, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return nil, err
+	}
+	return &Page{Title: title, Body: body}, nil
+}
 
 func renderTemplate(w http.ResponseWriter, tmpl string, p *page.Page) {
 	t, err := template.ParseFiles(tmpl + ".html")
